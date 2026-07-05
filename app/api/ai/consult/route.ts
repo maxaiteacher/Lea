@@ -33,8 +33,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: err.message }, { status: 503 });
     }
     console.error(err);
+    const detail = err instanceof Error ? err.message : String(err);
     return NextResponse.json(
-      { error: "답변을 가져오는 중 오류가 발생했습니다." },
+      { error: `답변 오류: ${detail}` },
       { status: 500 }
     );
   }

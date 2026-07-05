@@ -29,8 +29,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: err.message }, { status: 503 });
     }
     console.error(err);
+    const detail = err instanceof Error ? err.message : String(err);
     return NextResponse.json(
-      { error: "추천을 가져오는 중 오류가 발생했습니다." },
+      { error: `추천 오류: ${detail}` },
       { status: 500 }
     );
   }
