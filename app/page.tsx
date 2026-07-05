@@ -6,9 +6,14 @@ import { daysUntilWatering, formatDate, getNextWatering, isDue } from "@/lib/wat
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const plants = await prisma.plant.findMany({
-    orderBy: { createdAt: "desc" },
-  });
+  // DB 미연결(첫 배포 등) 시 에러 페이지 대신 빈 목록으로 표시.
+  let plants: Awaited<ReturnType<typeof prisma.plant.findMany>> = [];
+  let dbError = false;
+  try {
+    plants = await prisma.plant.findMany({ orderBy: { createdAt: "desc" } });
+  } catch {
+    dbError = true;
+  }
 
   const cards: PlantCardData[] = plants.map((p) => ({
     id: p.id,
@@ -43,6 +48,13 @@ export default async function HomePage() {
           + 식물 등록
         </Link>
       </div>
+
+      {dbError && (
+        <div className="mb-4 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
+          데이터베이스에 아직 연결되지 않았어요. Vercel의 <b>Storage</b> 탭에서
+          무료 Postgres를 연결하면 식물 등록·저장이 동작합니다.
+        </div>
+      )}
 
       {cards.length === 0 ? (
         <div className="rounded-lg border border-dashed border-leaf-200 bg-white p-10 text-center text-gray-500">

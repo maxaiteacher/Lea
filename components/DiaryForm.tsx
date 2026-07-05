@@ -3,6 +3,17 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+const MAX_BYTES = 1_500_000; // 1.5MB (base64로 DB에 저장하므로 제한)
+
+function readAsDataUrl(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = () => reject(new Error("사진을 읽지 못했습니다."));
+    reader.readAsDataURL(file);
+  });
+}
+
 export default function DiaryForm({ plantId }: { plantId: number }) {
   const router = useRouter();
   const [memo, setMemo] = useState("");
@@ -13,22 +24,26 @@ export default function DiaryForm({ plantId }: { plantId: number }) {
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
-    setLoading(true);
 
     let photoPath: string | undefined;
     if (file) {
-      const fd = new FormData();
-      fd.append("file", file);
-      const up = await fetch("/api/upload", { method: "POST", body: fd });
-      if (!up.ok) {
-        const d = await up.json().catch(() => ({}));
-        setError(d.error ?? "사진 업로드 실패");
-        setLoading(false);
+      if (!file.type.startsWith("image/")) {
+        setError("이미지 파일만 첨부할 수 있습니다.");
         return;
       }
-      photoPath = (await up.json()).path;
+      if (file.size > MAX_BYTES) {
+        setError("사진 크기는 1.5MB 이하여야 합니다.");
+        return;
+      }
+      try {
+        photoPath = await readAsDataUrl(file);
+      } catch {
+        setError("사진을 읽지 못했습니다.");
+        return;
+      }
     }
 
+    setLoading(true);
     const res = await fetch("/api/diary", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -62,7 +77,7 @@ export default function DiaryForm({ plantId }: { plantId: number }) {
       />
       <div>
         <label className="mb-1 block text-sm text-gray-600">
-          사진 첨부 (선택)
+          사진 첨부 (선택, 1.5MB 이하)
         </label>
         <input
           type="file"

@@ -18,40 +18,45 @@
 ## 기술 스택
 
 - **프론트+백엔드**: Next.js 14 (App Router) · TypeScript · Tailwind CSS
-- **DB**: SQLite + Prisma (사진은 서버 로컬 `public/uploads/`에 저장)
+- **DB**: PostgreSQL + Prisma (사진은 base64로 DB에 저장 — 서버리스/Vercel 호환)
 - **AI**: Claude(기본) / OpenAI 를 환경변수로 전환 (`lib/ai/`)
 
-## 실행 방법
+## Vercel 배포
+
+1. GitHub 저장소를 Vercel에 Import (이미 완료).
+2. **Storage** 탭 → **Create Database** → **Postgres(Neon)** 연결
+   → `DATABASE_URL` 환경변수가 자동 등록됩니다.
+3. **Settings → Environment Variables** 에 AI 키 추가:
+   - Claude: `ANTHROPIC_API_KEY`, `AI_PROVIDER=claude`
+   - OpenAI: `OPENAI_API_KEY`, `AI_PROVIDER=openai`
+4. **Deployments → Redeploy** (또는 새 커밋 푸시 시 자동 배포).
+   빌드 중 `prisma db push`가 DB에 테이블을 자동 생성합니다.
+
+## 로컬 실행
 
 ```bash
-# 1) 의존성 설치
 npm install
 
-# 2) 환경변수 설정
 cp .env.example .env
-#   .env 를 열어 AI_PROVIDER 와 API 키를 입력하세요.
+#   .env 에 DATABASE_URL(Postgres), AI_PROVIDER, API 키 입력
 
-# 3) DB 스키마 생성
-npx prisma migrate dev --name init
-
-# 4) (선택) 샘플 식물 3개 넣기
-npm run seed
-
-# 5) 개발 서버 실행
-npm run dev
-# http://localhost:3000
+npx prisma db push     # DB에 테이블 생성
+npm run seed           # (선택) 샘플 식물 3개
+npm run dev            # http://localhost:3000
 ```
 
-## 환경변수 (.env)
+> 로컬에도 PostgreSQL 연결이 필요합니다(로컬 설치 또는 클라우드 DB URL 사용).
+
+## 환경변수
 
 | 변수 | 설명 |
 | --- | --- |
+| `DATABASE_URL` | PostgreSQL 연결 문자열 (Vercel Storage 연결 시 자동) |
 | `AI_PROVIDER` | `claude`(기본) 또는 `openai` |
-| `ANTHROPIC_API_KEY` | Claude 사용 시 필요 (모델: `claude-opus-4-8`) |
-| `OPENAI_API_KEY` | OpenAI 사용 시 필요 (모델: `gpt-4o`) |
-| `DATABASE_URL` | 기본 `file:./dev.db` |
+| `ANTHROPIC_API_KEY` | Claude 사용 시 (모델: `claude-opus-4-8`) |
+| `OPENAI_API_KEY` | OpenAI 사용 시 (모델: `gpt-4o`) |
 
-> API 키가 없어도 앱은 실행됩니다. AI 기능 호출 시 키가 없으면 안내 메시지를 반환합니다.
+> API 키가 없어도 앱은 뜹니다. AI 기능 호출 시 키가 없으면 안내 메시지를 반환합니다.
 
 ## 팀 역할 분담
 
