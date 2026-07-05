@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && (if [ -n \"$DATABASE_URL\" ]; then prisma db push --skip-generate --accept-data-loss; else echo 'DATABASE_URL 없음: db push 건너뜀 (DB 연결 후 재배포하면 테이블 생성)'; fi) && next build",
+    "build": "prisma generate && node scripts/db-push.mjs && next build",
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate",
