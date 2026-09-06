@@ -7,7 +7,7 @@ import { hasSupabaseEnv } from "@/lib/supabase/env";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Lea Web",
+  title: "FocusLens",
   description: "Vercel과 Supabase로 배포하는 Next.js 앱",
 };
 
@@ -33,7 +33,7 @@ export default async function RootLayout({
         <header className="border-b border-neutral-200 dark:border-neutral-800">
           <nav className="mx-auto flex max-w-3xl items-center gap-4 px-4 py-3 text-sm">
             <Link href="/" className="font-semibold">
-              Lea Web
+              FocusLens
             </Link>
             <Link href="/notes" className="hover:underline">
               메모

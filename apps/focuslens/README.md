@@ -1,4 +1,4 @@
-# Lea Web
+# FocusLens
 
 Vercel에 배포하고 Supabase의 데이터베이스·인증·스토리지를 사용하는 Next.js 앱입니다.
 저장소 루트의 식물 관리 앱(`Lea`)과는 독립적으로 동작하며, 각자 별도의 Vercel
@@ -39,7 +39,7 @@ Supabase 클라이언트는 실행 위치에 따라 세 가지로 나누어 두�
 ## 2단계 — 로컬 실행
 
 ```bash
-cd apps/web
+cd apps/focuslens
 npm install
 
 cp .env.example .env.local
@@ -58,7 +58,7 @@ npm run dev     # http://localhost:3000
 1. [vercel.com/new](https://vercel.com/new) 에서 이 저장소를 Import 합니다.
    (루트의 기존 앱이 이미 연결되어 있어도, 같은 저장소로 프로젝트를 하나 더 만들 수
    있습니다.)
-2. **Root Directory** 를 `apps/web` 으로 지정합니다. Framework Preset은 Next.js로
+2. **Root Directory** 를 `apps/focuslens` 으로 지정합니다. Framework Preset은 Next.js로
    자동 인식됩니다.
 3. **Environment Variables** 에 아래 값을 추가합니다. Production·Preview·Development
    세 환경 모두에 넣어야 미리보기 배포에서도 동작합니다.
@@ -86,7 +86,7 @@ npm run dev     # http://localhost:3000
 빌드됩니다. 각 Vercel 프로젝트의 **Settings → Git → Ignored Build Step** 에 아래
 명령을 넣으면 자기 디렉터리가 바뀔 때만 배포합니다.
 
-- `apps/web` 프로젝트: `git diff --quiet HEAD^ HEAD -- apps/web`
+- `apps/focuslens` 프로젝트: `git diff --quiet HEAD^ HEAD -- apps/focuslens`
 - 루트 프로젝트: `git diff --quiet HEAD^ HEAD -- ':!apps'`
 
 ## 배포 후 점검

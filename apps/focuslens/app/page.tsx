@@ -65,7 +65,7 @@ export default async function HomePage() {
   return (
     <div className="space-y-8">
       <section className="space-y-2">
-        <h1 className="text-2xl font-bold">Lea Web</h1>
+        <h1 className="text-2xl font-bold">FocusLens</h1>
         <p className="text-neutral-600 dark:text-neutral-400">
           Vercel에 배포하고 Supabase의 데이터베이스·인증·스토리지를 사용하는 Next.js
           앱입니다. 아래에서 각 연결이 정상인지 바로 확인할 수 있습니다.

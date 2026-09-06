@@ -11,9 +11,9 @@
 | 경로 | 앱 | 백엔드 |
 | --- | --- | --- |
 | 저장소 루트 | Lea — 식물 키우기 & 요리 도우미 (아래 문서) | Prisma + PostgreSQL |
-| `apps/web/` | Lea Web — Supabase 연동 앱 | Supabase (DB · Auth · Storage) |
+| `apps/focuslens/` | FocusLens — Supabase 연동 앱 | Supabase (DB · Auth · Storage) |
 
-`apps/web` 의 설정과 배포 방법은 [`apps/web/README.md`](apps/web/README.md) 에
+`apps/focuslens` 의 설정과 배포 방법은 [`apps/focuslens/README.md`](apps/focuslens/README.md) 에
 따로 정리해 두었습니다.
 
 ## 주요 기능
