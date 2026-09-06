@@ -4,6 +4,18 @@
 받을 수 있는 웹 앱입니다. Next.js 풀스택(App Router) 한 저장소로 구성되어 팀 협업에
 적합합니다.
 
+## 저장소 구성
+
+이 저장소에는 두 개의 앱이 들어 있고, 각각 별도의 Vercel 프로젝트로 배포합니다.
+
+| 경로 | 앱 | 백엔드 |
+| --- | --- | --- |
+| 저장소 루트 | Lea — 식물 키우기 & 요리 도우미 (아래 문서) | Prisma + PostgreSQL |
+| `apps/web/` | Lea Web — Supabase 연동 앱 | Supabase (DB · Auth · Storage) |
+
+`apps/web` 의 설정과 배포 방법은 [`apps/web/README.md`](apps/web/README.md) 에
+따로 정리해 두었습니다.
+
 ## 주요 기능
 
 | 기능 | 설명 | 위치 |
